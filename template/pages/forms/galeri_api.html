@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Galeri API</title>
+  <style>
+  .image {
+    width: 200px;
+  }
+  </style>
+</head>
+<body>
+  <h1>Galeri</h1>
+
+  <div id="image-list"></div>
+
+  <script>
+    // get request daftar gambar
+    fetch ("api/galeri.php")
+      .then(resp => {
+        if (resp.ok) {
+          return resp.json()
+        } else {
+          // jika gagal fetching, langsung throw error jadi tidak melalui program .then() lagi.
+          throw new Error(`(${resp.status}) ${resp.statusText}`)
+        }
+      })
+      .then(imageList => {
+        const el = document.querySelector("#image-list")
+        imageList.forEach( val => {
+          // membuat html menggunakan javascript
+          const img = document.createElement("img");
+          img.classList.add("image");
+          img.setAttribute("src", val)
+
+          // menambahkan <img> yang baru ke div#image-list
+          el.appendChild(img)
+        })
+      });
+  </script>
+</body>
+</html>
